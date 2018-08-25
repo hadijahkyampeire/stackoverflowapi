@@ -1,5 +1,6 @@
 """Database queries"""
 import psycopg2
+from flask import current_app as app
 
 class Database:
     """class that holds all the queries"""
@@ -15,7 +16,7 @@ class Database:
     def create_tables(self):
         """creates all the tables for the db"""
         create_table = "CREATE TABLE IF NOT EXISTS users\
-        ( user_id SERIAL PRIMARY KEY, username VARCHAR(15), email VARCHAR(100), password VARCHAR(25))"
+        ( user_id SERIAL PRIMARY KEY, username VARCHAR(15), email VARCHAR(100), password VARCHAR(100))"
         self.cursor.execute(create_table)
 
         create_table = "CREATE TABLE IF NOT EXISTS questions\
@@ -45,7 +46,6 @@ class Database:
         query = "SELECT * FROM {} WHERE {} = '{}';".format(table, column_name, argument)
         self.cursor.execute(query)
         result = self.cursor.fetchone()
-        print(result)
         return result
 
 

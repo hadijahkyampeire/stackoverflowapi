@@ -1,8 +1,8 @@
 
-class Users():
+class User():
     """class for users"""
 
-    def __init__(self, id, username, email, password):
+    def __init__(self, user_id, username, email, password):
         self.id = user_id
         self.username = username
         self.email = email
@@ -12,7 +12,7 @@ class Users():
 class Questions():
     """class for questions"""
 
-    def __init__(self, id, title, description):
+    def __init__(self, question_id, title, description):
         self.id = question_id
         self.title = title
         self.description = description
@@ -20,7 +20,7 @@ class Questions():
 class Answers():
     """class for answers"""
 
-    def __init__(self, id, reply):
+    def __init__(self, answer_id, reply):
         self.id = answer_id
         self.reply = reply
 

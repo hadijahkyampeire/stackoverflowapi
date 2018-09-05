@@ -10,21 +10,17 @@ def token_required(f):
     """This the fuction to be decorated"""
     @wraps(f)
     def decorated(*args, **kwargs):
-        """creates thr decorator"""
+        """creates the decorator"""
         token = None
-
         if 'Authorization' in request.headers:
             token = request.headers['Authorization']
-
         if not token:
             return jsonify({'message': 'Token is missing!'}), 401
-
         try:
             data = jwt.decode(token, 'mysecret')
-            database = Database(app.config['DATABASE_URL'])
-            
-            query = database.fetch_by_param(
-                'users', 'username', data['username'])
+            database = Database()
+            query = database.get_by_argument(
+                'users', 'email', data['email'])
             current_user = User(query[0], query[1], query[2], query[3])
         except:
             return jsonify({'message': 'Token is invalid!'}), 401

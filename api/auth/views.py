@@ -27,7 +27,6 @@ def login_user():
     password = data['password']
     db_query = db.get_by_argument('users','email', email)
     user = User(db_query[0], db_query[1], db_query[2], db_query[3])
-    print(user)
     if user.email == data['email'] and check_password_hash(user.password, data['password']):
         #Generate token
         token = jwt.encode(
@@ -41,7 +40,7 @@ def login_user():
                 'token': token.decode('UTF-8'),
                 'email': user.email,
                 'username': user.username,
-                'Id': user.id
+                'Id': user.user_id
             }
         return make_response(jsonify(response)), 200
     return jsonify({'message':'Invalid username or password, try again or create an account'}), 401

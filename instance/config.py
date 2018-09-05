@@ -3,10 +3,6 @@ import os
 class Config(object):
     """Parent configuration class."""
     DEBUG = False
-    CSRF_ENABLED = True
-    SECRET = "some-very-long-string-of-random-characters-CHANGE-TO-YOUR-LIKING"
-    
-    FLASK_APP="run.py"
 
 class DevelopmentConfig(Config):
     """Configurations for Development."""

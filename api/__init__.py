@@ -6,3 +6,5 @@ app = Flask(__name__, instance_relative_config=True)
 app.config.from_object(app_config["development"])
 
 from api.auth import views
+from api.questions import views
+from api.answers import views

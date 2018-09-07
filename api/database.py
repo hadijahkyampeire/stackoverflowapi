@@ -5,11 +5,20 @@ from flask import current_app as app
 class Database:
     """class that holds all the queries"""
 
-    def __init__(self, url='postgresql://postgres:0000@localhost:5432/stackoverflow'):
+    def __init__(self):
         """initializes the connection to the db"""
         self.connection = psycopg2.connect(
-            database="stackoverflow", user="postgres", host="localhost", password="0000", port="5432"
-        )
+                database="stackoverflow", user="postgres", host="localhost", password="0000", port="5432"
+                )
+        try:
+            if app.config['TESTING']:
+                
+                self.connection = psycopg2.connect(
+                database="stackoverflowtestdb", user="postgres", host="localhost", password="0000", port="5432"
+                )
+            
+        except Exception as exp:
+            print(exp)
         #for pointing/connecting to the db
         self.cursor = self.connection.cursor()
 
@@ -101,6 +110,9 @@ class Database:
         self.cursor.execute(update_command)
         self.connection.commit()
 
-    def drop(self, table):
-        query = "DROP TABLE IF EXISTS {} CASCADE;".format(table)
-        self.cursor.execute(query)
+    def drop_tables(self):
+
+        query = "DROP TABLE IF EXISTS {0} CASCADE"
+        tables = ["users", "questions", "answers"]
+        for table in tables:
+            self.cursor.execute(query.format(table))

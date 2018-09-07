@@ -6,7 +6,7 @@ from api.database import Database
 from api import app
 
 
-db = Database('postgresql://postgres:0000@localhost/stackoverflow')
+db = Database()
 
 @app.route('/api/v1/questions', methods=['POST'])
 @token_required

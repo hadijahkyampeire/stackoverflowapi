@@ -1,4 +1,5 @@
 import jwt
+import re
 from datetime import datetime, timedelta
 from flask import Flask, jsonify, request, make_response
 from werkzeug.security import generate_password_hash, check_password_hash
@@ -15,6 +16,23 @@ def register_user():
     username = data['username']
     email = data['email']
     password = generate_password_hash(data['password'])
+    if not username:
+        return jsonify({"message": "username"
+                                    " required please"}), 400           
+    if not email:
+        return jsonify({"message": "email"
+                                    " required please"}), 400
+    if not password:
+        return jsonify({"message": "password"
+                                    " required please"}), 400
+    if not re.match("^[a-zA-Z0-9_.-]+$", username):
+        return jsonify({'message':
+                                'Username should not have space, better user -'}), 400
+    if not re.match("[^@]+@[^@]+\.[^@]+", email):
+        return jsonify({'message':
+                                'Invalid email format'}), 400
+    if not len(password) > 6:
+        return jsonify({'message':' Ensure password is morethan 6 characters'}), 400
     if db.get_by_argument('users','email', email):
         return jsonify({'message': 'user already exists'}), 409
     db.insert_user_data(username, email, password)
